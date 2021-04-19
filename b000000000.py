@@ -75,6 +75,30 @@ def former_des_chefs(docs):
 
   return docs
 
+def population(docs):
+
+  # Crée une nouvelle collection 'chefs_de_gouvernement'
+
+  nomColl = 'demographics'
+  maColl = db.create_collection(nomColl)
+
+  # Ajout manuel
+  # maColl.add({"HeadOfState": "Marc Ravalomanana","GovernmentForm":"Republic"}).execute()
+
+  # Manipuler la collection et la rajouter à la nouvelle
+  for doc in docs.fetch_all():
+    for country in doc.countries:
+      # Insert des documents JSON de type government
+      maColl.add(country['demographics']).execute()
+
+  # Trouver tous les documents JSON et les mettre en mémoire
+  docs = maColl.find().execute()
+
+  # Détruit la collection
+  #db.drop_collection(nomColl)
+
+  return docs
+
   # Ne pas oublier de remercier le gestionnaire de BD
   #  session.close
 
